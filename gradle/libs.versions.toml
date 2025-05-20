@@ -14,10 +14,11 @@ xmlUtil = "0.91.0"
 room = "2.6.1"
 hilt-version = "2.49"
 ksp-version = "2.0.0-1.0.24"
-coilVersion = "1.4.0"
+coilVersion = "2.4.0"
 recyclerviewVersion = "1.2.1"
 navigationUiKtx = "2.8.7"
 kotlinxCoroutines = "1.9.0"
+navigationComposeJvmstubs = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,7 +39,7 @@ retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofi
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 xmlutil-core = { group = "io.github.pdvrieze.xmlutil", name = "core", version.ref = "xmlUtil"  }
 xmlutil-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "xmlUtil"  }
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-version" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
@@ -49,6 +50,7 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeJvmstubs" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
