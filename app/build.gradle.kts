@@ -98,4 +98,8 @@ dependencies {
 
     // recycler
     implementation(libs.androidx.recyclerview)
+
+    // glide
+    implementation(libs.glide)
+    implementation(libs.glideCompiler)
 }

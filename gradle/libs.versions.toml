@@ -19,6 +19,8 @@ recyclerviewVersion = "1.2.1"
 navigationUiKtx = "2.8.7"
 kotlinxCoroutines = "1.9.0"
 navigationComposeJvmstubs = "2.9.0"
+glide = "4.12.0"
+glideCompiler = "4.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +53,8 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeJvmstubs" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glideCompiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideCompiler" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

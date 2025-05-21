@@ -7,17 +7,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.example.newsaggregator.R
+import android.widget.ImageView
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.viewinterop.AndroidView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleDetailScreen(
     title: String,
@@ -25,28 +32,55 @@ fun ArticleDetailScreen(
     imageUrl: String?,
     onBack: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Button(onClick = onBack, modifier = Modifier.padding(top = 16.dp)) {
-            Text(text = stringResource(id = R.string.back_text))
-        }
-        imageUrl?.let { url ->
-            AsyncImage(
-                model = url,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp),
-                contentScale = ContentScale.Crop
+    Column {
+        TopAppBar(
+            title = {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+            }
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            imageUrl?.let { url ->
+                AndroidView(
+                    factory = { context ->
+                        ImageView(context).apply {
+                            scaleType = ImageView.ScaleType.CENTER_CROP
+                        }
+                    },
+                    update = { imageView ->
+                        Glide.with(imageView.context)
+                            .load(url)
+                            .apply(RequestOptions().fitCenter())
+                            .into(imageView)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                )
+            }
+
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineMedium
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            SimpleHtmlContent(html = description, maxLines = null)
         }
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyLarge
-        )
     }
 }

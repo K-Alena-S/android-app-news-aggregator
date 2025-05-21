@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -42,12 +44,9 @@ fun NewsItem(article: Article, navController: NavController) {
         Text(
             text = article.title,
             maxLines = 2,
-            style = MaterialTheme.typography.titleMedium
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
         )
-        Text(
-            text = article.description,
-            maxLines = 4,
-            style = MaterialTheme.typography.bodyMedium
-        )
+        SimpleHtmlContent(html = article.description, maxLines = 5)
     }
 }
