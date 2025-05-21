@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.newsaggregator.ui.ArticleDetailScreen
-import com.example.newsaggregator.ui.NewsListScreen
+import com.example.newsaggregator.ui.detail.ArticleDetailScreen
+import com.example.newsaggregator.ui.newslist.NewsListScreen
 import com.example.newsaggregator.viewmodel.NewsListViewModel
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui
+package com.example.newsaggregator.ui.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.newsaggregator.ui.SimpleHtmlContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
