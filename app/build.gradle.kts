@@ -102,4 +102,6 @@ dependencies {
     // glide
     implementation(libs.glide)
     implementation(libs.glideCompiler)
+
+    implementation(libs.swiperefresh)
 }

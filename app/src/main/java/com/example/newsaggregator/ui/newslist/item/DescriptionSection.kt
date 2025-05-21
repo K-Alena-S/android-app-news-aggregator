@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.newsaggregator.ui.SimpleHtmlContent
+import com.example.newsaggregator.ui.newslist.SimpleHtmlContent
 
 @Composable
 fun DescriptionSection(description: String, width: Dp) {

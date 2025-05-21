@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui
+package com.example.newsaggregator.ui.newslist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.fillMaxWidth
