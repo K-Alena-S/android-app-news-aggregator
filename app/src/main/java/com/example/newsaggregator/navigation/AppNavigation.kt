@@ -5,8 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.newsaggregator.ui.detail.ArticleDetailScreen
+import com.example.newsaggregator.ui.detail.WebViewScreen
 import com.example.newsaggregator.ui.newslist.NewsListScreen
 import com.example.newsaggregator.viewmodel.NewsListViewModel
 
@@ -21,19 +20,10 @@ fun AppNavigation() {
             NewsListScreen(viewModel, navController)
         }
 
-        // Экран с деталями новости
-        composable(
-            "article/{title}/{description}/{imageUrl}",
-            arguments = listOf(
-                navArgument("title") { type = androidx.navigation.NavType.StringType },
-                navArgument("description") { type = androidx.navigation.NavType.StringType },
-                navArgument("imageUrl") { type = androidx.navigation.NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val title = backStackEntry.arguments?.getString("title") ?: ""
-            val description = backStackEntry.arguments?.getString("description") ?: ""
-            val imageUrl = backStackEntry.arguments?.getString("imageUrl") ?: ""
-            ArticleDetailScreen(title, description, imageUrl, onBack = { navController.popBackStack() })
+        // Новый экран с WebView
+        composable("webview/{url}") { backStackEntry ->
+            val url = backStackEntry.arguments?.getString("url") ?: ""
+            WebViewScreen(url = url, onBack = { navController.popBackStack() })
         }
     }
 }

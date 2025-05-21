@@ -21,9 +21,7 @@ fun NewsItem(article: Article, navController: NavController) {
         modifier = Modifier
             .padding(8.dp)
             .clickable {
-                navController.navigate(
-                    "article/${Uri.encode(article.title)}/${Uri.encode(article.description)}/${Uri.encode(article.imageUrl ?: "")}"
-                )
+                navController.navigate("webview/${Uri.encode(article.guid)}")
             }
     ) {
         TitleText(article.title)

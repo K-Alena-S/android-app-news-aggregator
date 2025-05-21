@@ -20,13 +20,17 @@ class NewsPresenter(
             try {
                 val rss = repository.fetchRss()
                 val articles = rss.channel.items.map {
+                    val largeImageUrl = it.contents.find { content ->
+                        content.width == "460"
+                    }?.url
+
                     Article(
                         title = it.title,
                         description = it.description,
                         link = it.link,
                         pubDate = it.pubDate,
                         guid = it.guid,
-                        imageUrl = it.contents.firstOrNull()?.url
+                        imageUrl = largeImageUrl
                     )
                 }
                 withContext(Dispatchers.Main) {
