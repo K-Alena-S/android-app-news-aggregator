@@ -11,10 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import com.example.newsaggregator.R
 
 @Composable
 fun CategoryPanel(
@@ -22,15 +26,22 @@ fun CategoryPanel(
     selectedCategory: String?,
     onCategorySelected: (String?) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+    val panelWidth = if (screenWidthDp / 2 < 500) {
+        (screenWidthDp / 2).dp
+    } else {
+        500.dp
+    }
     Surface(
         modifier = Modifier
-            .fillMaxWidth(0.5f)
+            .width(panelWidth)
             .fillMaxHeight(),
         color = MaterialTheme.colorScheme.surface
     ) {
         Column {
             Text(
-                text = "Categories",
+                text = stringResource(R.string.category_panel_name),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(16.dp)
             )
@@ -43,7 +54,8 @@ fun CategoryPanel(
                             .clickable {
                                 onCategorySelected(null)
                             },
-                        headlineContent = { Text(text = "Show All Articles") },
+                        headlineContent = { Text(text =
+                            stringResource(R.string.show_all_articles_text)) },
                         colors = ListItemDefaults.colors(
                             containerColor = if (selectedCategory == null) MaterialTheme.colorScheme
                                 .primaryContainer else MaterialTheme.colorScheme.surface

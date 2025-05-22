@@ -1,7 +1,6 @@
 package com.example.newsaggregator.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,12 +16,11 @@ fun AppNavigation() {
     val viewModel: NewsListViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "list") {
-        // Экран списка новостей
+
         composable("list") {
             NewsListScreen(viewModel = viewModel, navController = navController)
         }
 
-        // Новый экран с WebView
         composable("webview/{url}") { backStackEntry ->
             val url = backStackEntry.arguments?.getString("url") ?: ""
             WebViewScreen(url = url, onBack = { navController.popBackStack() })
