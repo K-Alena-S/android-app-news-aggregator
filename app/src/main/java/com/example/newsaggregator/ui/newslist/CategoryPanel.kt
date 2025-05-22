@@ -28,10 +28,10 @@ fun CategoryPanel(
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
-    val panelWidth = if (screenWidthDp / 2 < 500) {
+    val panelWidth = if (screenWidthDp / 2 < 360) {
         (screenWidthDp / 2).dp
     } else {
-        500.dp
+        360.dp
     }
     Surface(
         modifier = Modifier

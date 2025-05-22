@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.example.newsaggregator.presenter.Article
+import com.example.newsaggregator.data.rss.dto.Article
 
 @Composable
 fun ContentScreen(

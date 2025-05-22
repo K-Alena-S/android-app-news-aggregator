@@ -5,59 +5,68 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.data.repository.NewsRepository
-import com.example.newsaggregator.data.repository.NewsRepositoryImpl
-import com.example.newsaggregator.data.rss.RssFeed
-import com.example.newsaggregator.presenter.Article
-import com.example.newsaggregator.presenter.NewsListView
-import com.example.newsaggregator.presenter.NewsPresenter
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import nl.adaptivity.xmlutil.serialization.XML
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
+import com.example.newsaggregator.data.rss.dto.Article
+import kotlinx.coroutines.launch
 
-class NewsListViewModel : ViewModel(), NewsListView {
-    private val _articles = mutableStateListOf<Article>()
-    val articles: List<Article> get() = _articles
-
-    var isLoading by mutableStateOf(false)
-    var errorMessage by mutableStateOf<String?>(null)
+class NewsListViewModel(
+    private val repository: NewsRepository
+) : ViewModel() {
 
     private val allArticles = mutableListOf<Article>()
 
-    var selectedCategory: String? by mutableStateOf(null)
-    val categories = mutableStateListOf<String>()
+    private val _articles = mutableStateListOf<Article>()
+    val articles: List<Article> get() = _articles
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://www.theguardian.com")
-        .addConverterFactory(
-            XML.asConverterFactory(
-                "application/xml; charset=UTF8".toMediaType()
-            )
-        ).build()
+    private val _categories = mutableStateListOf<String>()
+    val categories: List<String> get() = _categories
 
+    private var _isLoading by mutableStateOf(false)
+    val isLoading: Boolean get() = _isLoading
 
-    private val guardian = retrofit.create(RssFeed::class.java)
-    private val repository: NewsRepository = NewsRepositoryImpl(guardian)
-    private val presenter = NewsPresenter(this, repository)
+    private var _errorMessage by mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage
+
+    private var _selectedCategory: String? by mutableStateOf(null)
+    val selectedCategory: String? get() = _selectedCategory
 
     fun loadNews() {
-        isLoading = true
-        errorMessage = null
-        presenter.loadNews()
+        _isLoading = true
+        _errorMessage = null
+        fetchNews()
     }
 
-    override fun showNews(news: List<Article>) {
-        allArticles.clear()
-        allArticles.addAll(news)
-        updateCategories(news)
+    private fun fetchNews() {
+        viewModelScope.launch {
+            try {
+                val news = repository.fetchRss().channel.items.map {
+                    val largeImageUrl = it.contents.find { content -> content.width == "460" }?.url
+                    Article(
+                        title = it.title,
+                        description = it.description,
+                        link = it.link,
+                        pubDate = it.pubDate,
+                        guid = it.guid,
+                        imageUrl = largeImageUrl,
+                        category = it.categories
+                    )
+                }
+                allArticles.clear()
+                allArticles.addAll(news)
+                updateCategories(news)
+                filterArticles()
+            } catch (e: Exception) {
+                _errorMessage = e.message ?: "Error loading news"
+            } finally {
+                _isLoading = false
+            }
+        }
+    }
+
+    fun selectCategory(category: String?) {
+        _selectedCategory = category
         filterArticles()
-        isLoading = false
-    }
-
-    override fun showError(message: String) {
-        errorMessage = message
-        isLoading = false
     }
 
     private fun updateCategories(articles: List<Article>) {
@@ -67,22 +76,15 @@ class NewsListViewModel : ViewModel(), NewsListView {
                 categoriesSet.add(cat.value)
             }
         }
-        categories.clear()
-        categories.addAll(categoriesSet.sorted())
-    }
-
-    fun selectCategory(category: String?) {
-        selectedCategory = category
-        filterArticles()
+        _categories.clear()
+        _categories.addAll(categoriesSet.sorted())
     }
 
     private fun filterArticles() {
-        val filtered = if (selectedCategory == null || selectedCategory == "Show All Articles") {
+        val filtered = if (_selectedCategory == null || _selectedCategory == "Show All Articles") {
             allArticles
         } else {
-            allArticles.filter { article ->
-                article.category.any { it.value == selectedCategory }
-            }
+            allArticles.filter { it.category.any { c -> c.value == _selectedCategory } }
         }
         _articles.clear()
         _articles.addAll(filtered)

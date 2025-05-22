@@ -104,4 +104,7 @@ dependencies {
     implementation(libs.glideCompiler)
 
     implementation(libs.swiperefresh)
+    implementation(libs.koin)
+    implementation(libs.koincompose)
+
 }

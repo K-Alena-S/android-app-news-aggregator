@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.newsaggregator.presenter.Article
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.platform.LocalConfiguration
+import com.example.newsaggregator.data.rss.dto.Article
 
 @Composable
 fun NewsItem(article: Article, navController: NavController) {
