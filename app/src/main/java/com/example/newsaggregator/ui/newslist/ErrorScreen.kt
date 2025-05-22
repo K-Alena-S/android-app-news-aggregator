@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,10 @@ import androidx.compose.ui.res.stringResource
 import com.example.newsaggregator.R
 
 @Composable
-fun ErrorScreen(errorMessage: String?) {
+fun ErrorScreen(
+    errorMessage: String?,
+    onRetry: () -> Unit
+) {
     val colors = MaterialTheme.colorScheme
     Column(
         modifier = Modifier
@@ -29,9 +33,16 @@ fun ErrorScreen(errorMessage: String?) {
     ) {
         Text(
             text = errorMessage ?: stringResource(R.string.error_message),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = onRetry) {
+            Text(text = stringResource(R.string.retry))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.check_internet_connection),
             style = MaterialTheme.typography.bodyMedium,

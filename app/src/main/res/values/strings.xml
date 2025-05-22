@@ -5,6 +5,7 @@
 
     <string name="error_message">Unknown error</string>
     <string name="check_internet_connection">Please check your device connection to the internet.</string>
+    <string name="retry">Retry</string>
 
     <string name="category_panel_name">Categories</string>
     <string name="show_all_articles_text">Show All Articles</string>

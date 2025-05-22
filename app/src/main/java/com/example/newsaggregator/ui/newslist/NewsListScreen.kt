@@ -74,7 +74,12 @@ fun NewsListScreen(
             ) {
                 when {
                     isLoading -> LoadingScreen()
-                    errorMessage != null -> ErrorScreen(errorMessage)
+                    errorMessage != null -> ErrorScreen(
+                        errorMessage,
+                        onRetry = {
+                            viewModel.loadNews()
+                        }
+                    )
                     else -> ContentScreen(
                         articles = viewModel.articles,
                         screenWidthDp = screenWidthDp,
