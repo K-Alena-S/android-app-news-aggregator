@@ -10,8 +10,10 @@ import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun TitleText(title: String) {
+    val colors = MaterialTheme.colorScheme
     Text(
         text = title,
+        color = colors.onBackground,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),

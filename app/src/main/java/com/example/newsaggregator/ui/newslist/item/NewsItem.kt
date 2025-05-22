@@ -25,9 +25,9 @@ fun NewsItem(article: Article, navController: NavController) {
             }
     ) {
         TitleText(article.title)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         ContentRow(article, screenWidth)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         PubDateText(article.pubDate)
     }
 }
