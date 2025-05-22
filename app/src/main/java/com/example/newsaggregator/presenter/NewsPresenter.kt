@@ -1,6 +1,7 @@
 package com.example.newsaggregator.presenter
 
 import com.example.newsaggregator.data.repository.NewsRepository
+import com.example.newsaggregator.data.rss.dto.CategoryDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +31,8 @@ class NewsPresenter(
                         link = it.link,
                         pubDate = it.pubDate,
                         guid = it.guid,
-                        imageUrl = largeImageUrl
+                        imageUrl = largeImageUrl,
+                        category = it.categories
                     )
                 }
                 withContext(Dispatchers.Main) {
@@ -51,5 +53,6 @@ data class Article(
     val link: String,
     val pubDate: String,
     val guid: String,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val category: List<CategoryDto>
 )

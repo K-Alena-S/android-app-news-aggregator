@@ -13,7 +13,6 @@ import com.example.newsaggregator.presenter.NewsListView
 import com.example.newsaggregator.presenter.NewsPresenter
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import nl.adaptivity.xmlutil.serialization.XML
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
@@ -23,6 +22,11 @@ class NewsListViewModel : ViewModel(), NewsListView {
 
     var isLoading by mutableStateOf(false)
     var errorMessage by mutableStateOf<String?>(null)
+
+    private val allArticles = mutableListOf<Article>()
+
+    var selectedCategory: String? by mutableStateOf(null)
+    val categories = mutableStateListOf<String>()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://www.theguardian.com")
@@ -34,7 +38,6 @@ class NewsListViewModel : ViewModel(), NewsListView {
 
 
     private val guardian = retrofit.create(RssFeed::class.java)
-
     private val repository: NewsRepository = NewsRepositoryImpl(guardian)
     private val presenter = NewsPresenter(this, repository)
 
@@ -45,13 +48,43 @@ class NewsListViewModel : ViewModel(), NewsListView {
     }
 
     override fun showNews(news: List<Article>) {
-        _articles.clear()
-        _articles.addAll(news)
+        allArticles.clear()
+        allArticles.addAll(news)
+        updateCategories(news)
+        filterArticles()
         isLoading = false
     }
 
     override fun showError(message: String) {
         errorMessage = message
         isLoading = false
+    }
+
+    private fun updateCategories(articles: List<Article>) {
+        val categoriesSet = mutableSetOf<String>()
+        articles.forEach { article ->
+            article.category.forEach { cat ->
+                categoriesSet.add(cat.value)
+            }
+        }
+        categories.clear()
+        categories.addAll(categoriesSet.sorted())
+    }
+
+    fun selectCategory(category: String?) {
+        selectedCategory = category
+        filterArticles()
+    }
+
+    private fun filterArticles() {
+        val filtered = if (selectedCategory == null || selectedCategory == "Show All Articles") {
+            allArticles
+        } else {
+            allArticles.filter { article ->
+                article.category.any { it.value == selectedCategory }
+            }
+        }
+        _articles.clear()
+        _articles.addAll(filtered)
     }
 }
